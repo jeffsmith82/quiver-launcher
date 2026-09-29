@@ -150,6 +150,11 @@ public class HostProcessEnvironmentTests
         startInfo.Environment["FLATPAK_ID"] = "io.github.tgeorgiadis.QuiverLauncher";
         startInfo.Environment["FLATPAK_SANDBOX_DIR"] = "/home/user/.var/app/io.github.tgeorgiadis.QuiverLauncher/sandbox";
         startInfo.Environment["container"] = "flatpak";
+        startInfo.Environment["ALSA_CONFIG_PATH"] = "/usr/share/alsa/alsa-flatpak.conf";
+        startInfo.Environment["ALSA_CONFIG_DIR"] = "/usr/share/alsa";
+        startInfo.Environment["PULSE_SERVER"] = "unix:/run/flatpak/pulse/native";
+        startInfo.Environment["PULSE_CLIENTCONFIG"] = "/run/flatpak/pulse/config";
+        startInfo.Environment["AT_SPI_BUS_ADDRESS"] = "unix:path=/run/flatpak/at-spi-bus";
         startInfo.Environment["STEAM_COMPAT_APP_ID"] = "12345";
 
         HostProcessEnvironment.RouteToHostIfSandboxed(startInfo, name => name == "FLATPAK_ID" ? "io.github.tgeorgiadis.QuiverLauncher" : null);

@@ -67,7 +67,11 @@ internal static class HostProcessEnvironment
     /// on the host at all - a host process (e.g. Proton, which launches games via a
     /// D-Bus portal call) inheriting it fails immediately trying to connect. The
     /// XDG_* vars similarly point at Quiver's own ~/.var/app/... subdirectories, not
-    /// the host's real ones.
+    /// the host's real ones. Same story for audio/accessibility: ALSA_CONFIG_PATH
+    /// points at a Flatpak-runtime-only shim config, and PULSE_SERVER/PULSE_CLIENTCONFIG/
+    /// AT_SPI_BUS_ADDRESS point at sandbox-private proxy sockets under /run/flatpak/ -
+    /// forwarding any of these breaks the host process's audio/accessibility entirely
+    /// instead of letting it fall back to the real host defaults (which just work).
     /// </summary>
     internal static readonly string[] SandboxIdentityEnvironmentVariables =
     [
@@ -81,6 +85,11 @@ internal static class HostProcessEnvironment
         "FLATPAK_ID",
         "FLATPAK_SANDBOX_DIR",
         "container",
+        "ALSA_CONFIG_PATH",
+        "ALSA_CONFIG_DIR",
+        "PULSE_SERVER",
+        "PULSE_CLIENTCONFIG",
+        "AT_SPI_BUS_ADDRESS",
     ];
 
     internal static bool IsSandboxed(Func<string, string?>? getEnvironmentVariable = null)
